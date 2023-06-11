@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const PORT = 8000;
-const Recipe = require('./src/recipe')
+const Recipe = require('./src/recipe');
 require('dotenv').config();
 
 let db,
 	dbConnectionStr = process.env.DB_STRING,
-	dbName = 'recipes'
+	dbName = 'recipes';
 
 MongoClient.connect(dbConnectionStr, {useUnifiedTopology: true})
 	.then(client => {
