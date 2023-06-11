@@ -7,6 +7,24 @@
 	<title>Document</title>
 </head>
 <body>
-	<h1>Test</h1>
+	<h1>My Recipes</h1>
+	<ul class="recipes">
+	<% for(let i = 0; i < recipeList.length; i++) {%>
+		<li class="recipe">
+			<span><%= recipeList[i].recipeName %></span>
+			<span><%= recipeList[i].ingredients %></span>
+			<span><%= recipeList[i].steps %></span>
+		</li>
+	<% } %>
+	</ul>
+
+	<h2>Add a recipe:</h2>
+
+	<form action="/addRecipe" method="POST">
+		<input type="text" placeholder="Recipe Name" name="recipeName">
+		<input type="text" placeholder="Ingredients" name="ingredients">
+		<input type="text" placeholder="Steps" name="steps">
+		<input type="submit">
+	</form>
 </body>
 </html>

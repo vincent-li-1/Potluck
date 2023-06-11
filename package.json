@@ -8,11 +8,6 @@
   },
   "author": "Vincent Li",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
-    "babel-loader": "^9.1.2"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
