@@ -4,7 +4,8 @@
   "description": "Recipes app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"dev": "nodemon server.js"
   },
   "author": "Vincent Li",
   "license": "ISC",
@@ -14,5 +15,8 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongodb": "^5.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

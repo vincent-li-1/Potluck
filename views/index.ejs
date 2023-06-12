@@ -4,21 +4,35 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
+	<title>Recipe App</title>
 </head>
 <body>
 	<h1>My Recipes</h1>
 	<ul class="recipes">
 	<% for(let i = 0; i < recipeList.length; i++) {%>
 		<li class="recipe">
-			<span><%= recipeList[i].recipeName %></span>
-			<span><%= recipeList[i].ingredients %></span>
-			<span><%= recipeList[i].steps %></span>
+			<span><%= recipeList[i]._recipeName %></span>
+			<ul class="ingredients">
+				<% for(const ingredient of recipeList[i]._ingredients) {%>
+				<li class="ingredient">
+					<span><%= ingredient %></span>
+				</li>
+				<% } %>
+			</ul>
+			<ul class="steps">
+				<% for(const step of recipeList[i]._steps) {%>
+				<li class="step">
+					<span><%= step %></span>
+				</li>
+				<% } %>
+			</ul>
 		</li>
 	<% } %>
 	</ul>
 
-	<h2>Add a recipe:</h2>
+	<a class="create btn" href="/createRecipe">Create a new recipe</a>
 
 	<form action="/addRecipe" method="POST">
 		<input type="text" placeholder="Recipe Name" name="recipeName">
@@ -26,5 +40,8 @@
 		<input type="text" placeholder="Steps" name="steps">
 		<input type="submit">
 	</form>
+
+	<script src='js/main.js'></script>
 </body>
+
 </html>

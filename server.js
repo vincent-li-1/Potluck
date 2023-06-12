@@ -26,18 +26,34 @@ app.get('/', (req, res) => {
 	.then(data => {
 		res.render('index.ejs', {recipeList: data});
 	})
-	.catch(error => console.error(error));
+	.catch(err => console.error(err));
 })
 
-app.post('/addRecipe', (req, res) => {
-	const recipeToAdd = new Recipe(req.body.recipeName, req.body.ingredients, req.body.steps);
+app.get('/createRecipe', (req, res) => {
+	res.render('createRecipe.ejs');
+})
+
+app.post('/submitRecipe', (req, res) => {
+	const recipeToAdd = new Recipe(req.body.name, req.body.ingredients, req.body.steps);
 	db.collection('recipes').insertOne(recipeToAdd)
 		.then(result => {
 			console.log('Recipe added');
-			res.redirect('/')
+			res.redirect('/');
 		})
-		.catch(error => console.error(error));
+		.catch(err => console.error(err));
 })
+
+// app.post('/addRecipe', (req, res) => {
+// 	const recipeToAdd = new Recipe(req.body.recipeName);
+// 	console.log(req.body.ingredients);
+// 	console.log(req.body.steps);
+// 	db.collection('recipes').insertOne(recipeToAdd)
+// 		.then(result => {
+// 			console.log('Recipe added');
+// 			res.redirect('/')
+// 		})
+// 		.catch(error => console.error(error));
+// })
 
 app.listen(process.env.PORT || PORT, () => console.log(`Server running on port ${PORT}`));
 
