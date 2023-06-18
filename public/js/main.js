@@ -29,13 +29,13 @@ async function submitRecipe() {
 		name: recipeName,
 		ingredients: ingredientsToAdd,
 		steps: stepsToAdd
-	}
+	};
 	try {
 		const res = await fetch('/createRecipe/submitRecipe', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(recipe)
-		})
+		});
 		location.href = '/';
 	}
 	catch(err) {

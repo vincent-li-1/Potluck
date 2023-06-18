@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require('./config/database');
 const myRecipesRoutes = require('./routes/myRecipes');
 const createRecipeRoutes = require('./routes/createRecipe');
+const PORT = 8000;
 require('dotenv').config({path: './config/.env'});
 
 connectDB();
@@ -15,5 +16,5 @@ app.use(express.json());
 app.use('/', myRecipesRoutes);
 app.use('/createRecipe', createRecipeRoutes);
 
-app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
+app.listen(process.env.PORT || PORT, () => console.log(`Server running`));
 
