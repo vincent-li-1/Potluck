@@ -1,59 +1,19 @@
 const express = require('express');
 const app = express();
-const MongoClient = require('mongodb').MongoClient;
-const PORT = 8000;
-const Recipe = require('./src/recipe');
-require('dotenv').config();
+const connectDB = require('./config/database');
+const myRecipesRoutes = require('./routes/myRecipes');
+const createRecipeRoutes = require('./routes/createRecipe');
+require('dotenv').config({path: './config/.env'});
 
-let db,
-	dbConnectionStr = process.env.DB_STRING,
-	dbName = 'recipes';
-
-MongoClient.connect(dbConnectionStr, {useUnifiedTopology: true})
-	.then(client => {
-		console.log(`Connected to ${dbName} database`);
-		db = client.db(dbName);
-	})
-	.catch(error => console.error(error));
+connectDB();
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-	db.collection('recipes').find().toArray()
-	.then(data => {
-		res.render('index.ejs', {recipeList: data});
-	})
-	.catch(err => console.error(err));
-})
+app.use('/', myRecipesRoutes);
+app.use('/createRecipe', createRecipeRoutes);
 
-app.get('/createRecipe', (req, res) => {
-	res.render('createRecipe.ejs');
-})
-
-app.post('/submitRecipe', (req, res) => {
-	const recipeToAdd = new Recipe(req.body.name, req.body.ingredients, req.body.steps);
-	db.collection('recipes').insertOne(recipeToAdd)
-		.then(result => {
-			console.log('Recipe added');
-			res.redirect('/');
-		})
-		.catch(err => console.error(err));
-})
-
-// app.post('/addRecipe', (req, res) => {
-// 	const recipeToAdd = new Recipe(req.body.recipeName);
-// 	console.log(req.body.ingredients);
-// 	console.log(req.body.steps);
-// 	db.collection('recipes').insertOne(recipeToAdd)
-// 		.then(result => {
-// 			console.log('Recipe added');
-// 			res.redirect('/')
-// 		})
-// 		.catch(error => console.error(error));
-// })
-
-app.listen(process.env.PORT || PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
 

@@ -13,16 +13,16 @@
 	<ul class="recipes">
 	<% for(let i = 0; i < recipeList.length; i++) {%>
 		<li class="recipe">
-			<span><%= recipeList[i]._recipeName %></span>
+			<span><%= recipeList[i].name %></span>
 			<ul class="ingredients">
-				<% for(const ingredient of recipeList[i]._ingredients) {%>
+				<% for(const ingredient of recipeList[i].ingredients) {%>
 				<li class="ingredient">
 					<span><%= ingredient %></span>
 				</li>
 				<% } %>
 			</ul>
 			<ul class="steps">
-				<% for(const step of recipeList[i]._steps) {%>
+				<% for(const step of recipeList[i].steps) {%>
 				<li class="step">
 					<span><%= step %></span>
 				</li>

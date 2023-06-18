@@ -31,7 +31,7 @@ async function submitRecipe() {
 		steps: stepsToAdd
 	}
 	try {
-		const res = await fetch('/submitRecipe', {
+		const res = await fetch('/createRecipe/submitRecipe', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(recipe)
