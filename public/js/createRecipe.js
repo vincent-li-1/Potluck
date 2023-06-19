@@ -42,4 +42,3 @@ async function submitRecipe() {
 		console.error(err);
 	}
 }
-
