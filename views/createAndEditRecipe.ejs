@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><%= create ? 'Create' : 'Edit'%> Recipe</title>
-	<link rel="stylesheet" href="/css/normalize.css">
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body data-id="<%=recipe._id%>">
 	<h1><%= create ? 'Create' : 'Edit'%> Recipe</h1>
@@ -36,6 +36,6 @@
 	<input type="text" placeholder="Step" class="stepInput">
 	<button class="addStep">Add new step</button>
 
-	<script src="js/main.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
