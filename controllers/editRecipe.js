@@ -9,15 +9,5 @@ module.exports = {
 		catch (err) {
 			console.error(err);
 		}
-	},
-	submitEditedRecipe: async (req, res) => {
-		try {
-			await Recipe.findOneAndUpdate({_id:req.body.recipeIdToUpdate}, req.body.edited);
-			console.log('Recipe edited!');
-			res.json('Edited');
-		}
-		catch (err) {
-			console.error(err);
-		}
 	}
 }

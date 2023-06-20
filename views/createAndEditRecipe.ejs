@@ -11,7 +11,7 @@
 <body data-id="<%=recipe._id%>">
 	<h1><%= create ? 'Create' : 'Edit'%> Recipe</h1>
 	<input type="text" name="recipeName" class="recipeName" value="<%=recipe.name%>">
-	<button class="submitEdited">Submit</button>
+	<button class="submit">Submit</button>
 	<a href="/">Cancel <%= create ? 'creating' : 'editing'%></a>
 	<h2>Ingredients</h2>
 	<ul class="ingredientsList">

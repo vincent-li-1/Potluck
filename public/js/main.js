@@ -1,14 +1,12 @@
 const addIngredientBtn = document.querySelector('.addIngredient');
 const addStepBtn = document.querySelector('.addStep');
-const submitEditedBtn = document.querySelector('.submitEdited');
-const submitNewBtn = document.querySelector('.submitNew');
+const submitBtn = document.querySelector('.submit');
 const deleteBtns = document.querySelectorAll('.delete');
 const deleteFromMainPageBtns = document.querySelectorAll('.deleteRecipe');
 
 addIngredientBtn && addIngredientBtn.addEventListener('click', addIngredientToList);
 addStepBtn && addStepBtn.addEventListener('click', addStepToList);
-submitEditedBtn && submitEditedBtn.addEventListener('click', submitEditedRecipe);
-submitNewBtn && submitNewBtn.addEventListener('click', submitNewRecipe);
+submitBtn && submitBtn.addEventListener('click', submitRecipe);
 Array.from(deleteBtns).forEach(el => el.addEventListener('click', deleteElement));
 Array.from(deleteFromMainPageBtns).forEach(el => el.addEventListener('click', deleteRecipe));
 
@@ -44,46 +42,24 @@ function addStepToList() {
 	document.querySelector('.stepInput').value = '';
 }
 
-async function submitEditedRecipe() {
+async function submitRecipe() {
 	const recipeName = document.querySelector('.recipeName').value;
 	const ingredientsFromInputs = Array.from(document.querySelectorAll('input.ingredient')).map(el => el.value);
 	const stepsFromInputs = Array.from(document.querySelectorAll('input.step')).map(el => el.value);
 	const updateTarget = this.parentNode.dataset.id;
-	const recipe = {
+	const submitRecipe = {
 		name: recipeName,
 		ingredients: ingredientsFromInputs,
 		steps: stepsFromInputs
 	};
 	try {
-		const res = await fetch('/editRecipe/submitEditedRecipe', {
+		const res = await fetch('/submitRecipe', {
 			method: 'put',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
 				recipeIdToUpdate: updateTarget,
-				edited: recipe
+				recipe: submitRecipe
 			})
-		});
-		location.href = '/';
-	}
-	catch(err) {
-		console.error(err);
-	}
-}
-
-async function submitNewRecipe() {
-	const recipeName = document.querySelector('.recipeName').value;
-	const ingredientsFromInputs = Array.from(document.querySelectorAll('input.ingredient')).map(el => el.value);
-	const stepsFromInputs = Array.from(document.querySelectorAll('input.step')).map(el => el.value);
-	let recipe = {
-		name: recipeName,
-		ingredients: ingredientsFromInputs,
-		steps: stepsFromInputs
-	};
-	try {
-		const res = await fetch('/createRecipe/submitRecipe', {
-			method: 'post',
-			headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(recipe)
 		});
 		location.href = '/';
 	}
