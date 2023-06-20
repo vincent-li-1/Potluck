@@ -10,6 +10,11 @@ submitBtn && submitBtn.addEventListener('click', submitRecipe);
 Array.from(deleteBtns).forEach(el => el.addEventListener('click', deleteElement));
 Array.from(deleteFromMainPageBtns).forEach(el => el.addEventListener('click', deleteRecipe));
 
+let perfEntries = performance.getEntriesByType('navigation');
+if (perfEntries[0].type === 'back_forward') {
+	location.reload();
+}
+
 function addIngredientToList() {
 	const li = document.createElement('li');
 	const input = document.createElement('input');
@@ -74,18 +79,19 @@ function deleteElement() {
 }
 
 async function deleteRecipe() {
-	const deleteTarget = this.parentNode.dataset.id;
+	const deleteTarget = this.parentNode;
+	const deleteTargetId = deleteTarget.dataset.id;
+	deleteTarget.remove();
 	try {
 		const res = await fetch('/deleteRecipe', {
 			method: 'delete',
 			headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                'recipeIdToDelete': deleteTarget
+                'recipeIdToDelete': deleteTargetId
             })
 		});
 		const data = await res.json();
 		console.log(data);
-		location.reload();
 	}
 	catch (err) {
 		console.error(err);
