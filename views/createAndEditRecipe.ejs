@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><%= create ? 'Create' : 'Edit'%> Recipe</title>
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-id="<%=recipe._id%>">
+	<h1><%= create ? 'Create' : 'Edit'%> Recipe</h1>
+	<input type="text" name="recipeName" class="recipeName" value="<%=recipe.name%>">
+	<button class="submitEdited">Submit</button>
+	<a href="/">Cancel <%= create ? 'creating' : 'editing'%></a>
+	<h2>Ingredients</h2>
+	<ul class="ingredientsList">
+		<% for (const ingredient of recipe.ingredients) {%>
+		<li>
+			<input type="text" class="ingredient" value="<%=ingredient%>">
+			<button class="delete">Delete Ingredient</button>
+		</li>
+		<% } %>
+	</ul>
+	<input type="text" placeholder="Ingredient" class="ingredientInput">
+	<button class="addIngredient">Add new ingredient</button>
+	<h2>Steps</h2>
+	<ol class="stepsList">
+		<% for (const step of recipe.steps) {%>
+		<li>
+			<input type="text" class="step" value="<%=step%>">
+			<button class="delete">Delete Step</button>
+		</li>
+		<% } %>
+	</ol>
+	<input type="text" placeholder="Step" class="stepInput">
+	<button class="addStep">Add new step</button>
+
+	<script src="/js/main.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ const Recipe = require('../models/Recipe');
 
 module.exports = {
 	getCreateRecipe: (req, res) => {
-		res.render('createRecipe.ejs');
+		res.render('createAndEditRecipe.ejs', {recipe: {_id: '', name: '', ingredients: [], steps: [], likes: []}, create: true});
 	},
 	submitRecipe: async (req, res) => {
 		try {

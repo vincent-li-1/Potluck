@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require('./config/database');
 const myRecipesRoutes = require('./routes/myRecipes');
 const createRecipeRoutes = require('./routes/createRecipe');
+const editRecipeRoutes = require('./routes/editRecipe');
 const PORT = 8000;
 require('dotenv').config({path: './config/.env'});
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/', myRecipesRoutes);
 app.use('/createRecipe', createRecipeRoutes);
+app.use('/editRecipe', editRecipeRoutes);
 
 app.listen(process.env.PORT || PORT, () => console.log(`Server running`));
 
