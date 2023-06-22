@@ -30,14 +30,14 @@
 				</li>
 				<% } %>
 			</ul>
-			<a class="editRecipe" href="/editRecipe/<%=recipe.id%>">Edit</a>
+			<a class="editRecipe" href="/createEditRecipe/<%=recipe.id%>">Edit</a>
 			<button class="deleteRecipe">Delete</button>
 		</li>
 	<% } %>
 	</ul>
 
-	<a class="create btn" href="/createRecipe">Create a new recipe</a>
-
+	<a class="create btn" href="/createEditRecipe">Create a new recipe</a>
+	<a class="logout" href="/logout">Logout</a>
 	<script src="js/main.js"></script>
 </body>
 
