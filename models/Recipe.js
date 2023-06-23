@@ -16,6 +16,10 @@ const RecipeSchema = new mongoose.Schema({
 	likes: {
 		type: [String],
 		required: true,
+	},
+	userId: {
+		type: String,
+		required: true
 	}
   });
   

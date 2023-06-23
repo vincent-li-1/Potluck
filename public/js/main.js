@@ -3,12 +3,17 @@ const addStepBtn = document.querySelector('.addStep');
 const submitBtn = document.querySelector('.submit');
 const deleteBtns = document.querySelectorAll('.delete');
 const deleteFromMainPageBtns = document.querySelectorAll('.deleteRecipe');
+const deleteFromViewBtn = document.querySelector('.deleteFromView');
 
 addIngredientBtn && addIngredientBtn.addEventListener('click', addIngredientToList);
 addStepBtn && addStepBtn.addEventListener('click', addStepToList);
 submitBtn && submitBtn.addEventListener('click', submitRecipe);
 Array.from(deleteBtns).forEach(el => el.addEventListener('click', deleteElement));
 Array.from(deleteFromMainPageBtns).forEach(el => el.addEventListener('click', deleteRecipe));
+deleteFromViewBtn && deleteFromViewBtn.addEventListener('click', async (click) => {
+	await deleteRecipe(click);
+	location.href="/myRecipes";
+});
 
 let perfEntries = performance.getEntriesByType('navigation');
 if (perfEntries[0].type === 'back_forward') {
@@ -52,21 +57,18 @@ async function submitRecipe() {
 	const ingredientsFromInputs = Array.from(document.querySelectorAll('input.ingredient')).map(el => el.value);
 	const stepsFromInputs = Array.from(document.querySelectorAll('input.step')).map(el => el.value);
 	const updateTarget = this.parentNode.dataset.id;
-	const submitRecipe = {
-		name: recipeName,
-		ingredients: ingredientsFromInputs,
-		steps: stepsFromInputs
-	};
 	try {
 		const res = await fetch('/submitRecipe', {
 			method: 'put',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
 				recipeIdToUpdate: updateTarget,
-				recipe: submitRecipe
+				name: recipeName,
+				ingredients: ingredientsFromInputs,
+				steps: stepsFromInputs
 			})
 		});
-		location.href = '/';
+		location.href = '/myRecipes';
 	}
 	catch(err) {
 		console.error(err);
@@ -78,12 +80,12 @@ function deleteElement() {
 	deleteTarget.remove();
 }
 
-async function deleteRecipe() {
-	const deleteTarget = this.parentNode;
+async function deleteRecipe(click) {
+	const deleteTarget = click.target.parentNode;
 	const deleteTargetId = deleteTarget.dataset.id;
 	deleteTarget.remove();
 	try {
-		const res = await fetch('/deleteRecipe', {
+		const res = await fetch('/myRecipes/deleteRecipe', {
 			method: 'delete',
 			headers: {'Content-type': 'application/json'},
             body: JSON.stringify({

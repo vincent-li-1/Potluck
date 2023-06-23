@@ -13,23 +13,7 @@
 	<ul class="recipes">
 	<% for(const recipe of recipeList) {%>
 		<li class="recipe" data-id="<%=recipe._id%>">
-			<h3><%= recipe.name %></h3>
-			<h4>Ingredients: </h4>
-			<ul class="ingredients">
-				<% for(const ingredient of recipe.ingredients) {%>
-				<li class="ingredient">
-					<span><%= ingredient %></span>
-				</li>
-				<% } %>
-			</ul>
-			<h4>Steps: </h4>
-			<ul class="steps">
-				<% for(const step of recipe.steps) {%>
-				<li class="step">
-					<span><%= step %></span>
-				</li>
-				<% } %>
-			</ul>
+			<a href="/myRecipes/viewRecipe/<%=recipe._id%>"><%= recipe.name %></h3>
 			<a class="editRecipe" href="/createEditRecipe/<%=recipe.id%>">Edit</a>
 			<button class="deleteRecipe">Delete</button>
 		</li>
