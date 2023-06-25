@@ -11,7 +11,6 @@ module.exports = {
 		}
     },
 	deleteRecipe: async (req, res) => {
-		console.log(req.body.recipeIdToDelete);
 		try {
 			await Recipe.findOneAndDelete({_id:req.body.recipeIdToDelete})
 			console.log('Server side log of deleted recipe');

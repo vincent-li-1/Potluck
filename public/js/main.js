@@ -56,9 +56,12 @@ async function submitRecipe() {
 	const recipeName = document.querySelector('.recipeName').value;
 	const ingredientsFromInputs = Array.from(document.querySelectorAll('input.ingredient')).map(el => el.value);
 	const stepsFromInputs = Array.from(document.querySelectorAll('input.step')).map(el => el.value);
+	if (!recipeName) {
+		alert('Recipe name is required!');
+	}
 	const updateTarget = this.parentNode.dataset.id;
 	try {
-		const res = await fetch('/submitRecipe', {
+		const res = await fetch('/createEditRecipe/submitRecipe', {
 			method: 'put',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

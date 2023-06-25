@@ -8,9 +8,8 @@ const connectDB = require('./config/database');
 const homeRoutes = require('./routes/home');
 const myRecipesRoutes = require('./routes/myRecipes');
 const createEditRecipeRoutes = require('./routes/createEditRecipe');
-const submitRecipeRoutes = require('./routes/submitRecipe');
 
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config({path:'./config/.env'});
 
 require('./config/passport')(passport);
 
@@ -42,7 +41,6 @@ app.use(flash());
 app.use('/', homeRoutes);
 app.use('/myRecipes', myRecipesRoutes);
 app.use('/createEditRecipe', createEditRecipeRoutes);
-app.use('/submitRecipe', submitRecipeRoutes);
 
-app.listen(process.env.PORT || PORT, () => console.log(`Server running`));
+app.listen(process.env.PORT, () => console.log(`Server running`));
 
