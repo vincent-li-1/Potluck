@@ -11,7 +11,7 @@
 <body data-id="<%=recipeToRender._id%>">
 	<h1><%=recipeToRender.name%></h1>
 	<h4>Ingredients: </h4>
-	<ul class="ingredients">
+	<ul class="ingredients ingredientsList">
 		<% for(const ingredient of recipeToRender.ingredients) {%>
 		<li class="ingredient">
 			<span><%= ingredient %></span>
@@ -19,13 +19,13 @@
 		<% } %>
 	</ul>
 	<h4>Steps: </h4>
-	<ul class="steps">
+	<ol class="steps stepsList">
 		<% for(const step of recipeToRender.steps) {%>
 		<li class="step">
 			<span><%= step %></span>
 		</li>
 		<% } %>
-	</ul>
+	</ol>
 	<a class="editRecipe" href="/createEditRecipe/<%=recipeToRender._id%>">Edit</a>
 	<button class="deleteFromView">Delete</button>
 	<script src="/js/main.js"></script>

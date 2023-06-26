@@ -10,31 +10,39 @@
 </head>
 <body data-id="<%=recipe._id%>">
 	<h1><%= create ? 'Create' : 'Edit'%> Recipe</h1>
-	<input type="text" name="recipeName" class="recipeName" value="<%=recipe.name%>">
-	<button class="submit">Submit</button>
-	<a href="/myRecipes">Cancel <%= create ? 'creating' : 'editing'%></a>
-	<h2>Ingredients</h2>
+	<div class="createEditBtns">
+		<button class="submit btn" data-id="<%=recipe._id%>">Submit</button>
+		<a href="/myRecipes" class="btn">Cancel <%= create ? 'creating' : 'editing'%></a>
+	</div>
+	<input type="text" name="recipeName" class="recipeName" value="<%= create ? '' : recipe.name%>" placeholder = "Recipe Name">
+	<div class="listHeaders">
+		<h2>Ingredients</h2>
+		<h2>Steps</h2>
+	</div>
 	<ul class="ingredientsList">
 		<% for (const ingredient of recipe.ingredients) {%>
 		<li>
 			<input type="text" class="ingredient" value="<%=ingredient%>">
-			<button class="delete">Delete Ingredient</button>
+			<button class="delete btn">Delete Ingredient</button>
 		</li>
 		<% } %>
 	</ul>
-	<input type="text" placeholder="Ingredient" class="ingredientInput">
-	<button class="addIngredient">Add new ingredient</button>
-	<h2>Steps</h2>
 	<ol class="stepsList">
 		<% for (const step of recipe.steps) {%>
 		<li>
 			<input type="text" class="step" value="<%=step%>">
-			<button class="delete">Delete Step</button>
+			<button class="delete btn">Delete Step</button>
 		</li>
 		<% } %>
 	</ol>
-	<input type="text" placeholder="Step" class="stepInput">
-	<button class="addStep">Add new step</button>
+	<div class="ingredientInputDiv">
+		<input type="text" placeholder="Ingredient" class="ingredientInput">
+		<button class="addIngredient btn">Add new ingredient</button>
+	</div>
+	<div class="stepInputDiv">
+		<input type="text" placeholder="Step" class="stepInput">
+		<button class="addStep btn">Add new step</button>
+	</div>
 
 	<script src="/js/main.js"></script>
 </body>

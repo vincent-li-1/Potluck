@@ -1,0 +1,209 @@
+@font-face {
+	font-family: 'Caveat';
+	src: url(fonts/Caveat/static/Caveat-Regular.ttf);
+	font-style: normal;
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Sarabun';
+	src: url(fonts/Sarabun/Sarabun-Regular.ttf);
+	font-style: normal;
+	font-weight: 400;
+} 
+
+body {
+	font-size: 20px;
+	color: rgba(0, 0, 0, 0.73);
+	font-family: 'Sarabun', sans-serif;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background-image: linear-gradient(45deg, rgba(242, 239, 197, 0.54), white);
+	background-attachment: fixed;
+	margin-top: 20px;
+}
+
+input {
+	font-family: 'Sarabun', sans-serif;
+	width: 30%;
+	height: 30px;
+	padding-left: 10px;
+}
+
+header {
+	flex-basis: 100%;
+	flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+}
+
+h1 {
+	font-family: 'Caveat', cursive;
+	font-size: 60px;
+	flex-basis: 76%;
+	margin: 0% 12% 2% 12%;
+	text-align: center;
+	padding-bottom: 1%;
+	border-bottom: rgba(0, 0, 0, 0.73) solid 2px;
+}
+
+.singleLine {
+	font-size: 30px;
+	text-align: center;
+	flex-basis: 100%;
+	margin-bottom: 3%;
+}
+
+form {
+	flex-basis: 100%;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1%;
+	gap: 10px;
+}
+
+li > .recipeName {
+	flex-basis: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.btn {
+	width: 100px;
+	height: 45px;
+	text-align: center;
+	text-transform: uppercase;
+	transition: 0.5s;
+	background-size: 200% auto;
+	color: white;
+	border: rgba(0, 0, 0, 0.73) 2px solid;
+	border-radius: 10px;
+	background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
+}
+
+.btn:hover {
+	background-position: right center;
+}
+
+a.btn {
+	font-size: 14px;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.logout.btn {
+	position: absolute;
+	top: 3%;
+	right: 5%;
+}
+
+.submit.btn, .deleteRecipe.btn {
+	height: 49px;
+}
+
+a.recipeName {
+	text-transform: capitalize;
+}
+
+ul, ol {
+	flex-basis: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+li {
+	flex-basis: 33%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.createDiv {
+	flex-basis: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+a.recipeName, a.recipeName:visited, a.recipeName:active {
+	text-decoration: none;
+	color: rgba(0, 0, 0, 0.73);
+}
+
+.gradientWord, a.recipeName:hover {
+	background-image: linear-gradient(45deg, rgba(231, 60, 55, 0.73), rgba(243, 241, 103, 0.73));
+	background-size: 100%;
+	background-repeat: repeat;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; 
+	-moz-background-clip: text;
+	-moz-text-fill-color: transparent;
+}
+
+.gradientWord {
+	font-family: 'Caveat', cursive;
+}
+
+.createEditBtns {
+	flex-basis: 100%;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+input.recipeName {
+	flex-basis: 40%;
+	margin: 0 30%;
+}
+
+
+ul.ingredientsList, ol.stepsList {
+	flex-basis: 50%;
+	text-align: center;
+	margin: 40px 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: flex-start;
+}
+
+ul.ingredientsList > li, ol.stepsList > li {
+	flex-basis: 100%;
+	display: flex;
+	gap: 10px;
+	margin-top: 5px;
+}
+
+div.listHeaders {
+	display: flex;
+	justify-content: center;
+	flex-basis: 100%;
+	margin-top: 30px;
+}
+
+div.listHeaders > h2 {
+	flex-basis: 50%;
+	text-align: center;
+}
+
+.ingredientInputDiv, .stepInputDiv {
+	flex-basis: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.ingredientInputDiv > input, .stepInputDiv > input {
+	flex-basis: 60%;
+}

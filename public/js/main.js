@@ -27,7 +27,7 @@ function addIngredientToList() {
 	input.classList.add('ingredient');
 	input.value = document.querySelector('.ingredientInput').value;
 	const deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('delete');
+	deleteBtn.classList.add('delete', 'btn');
 	deleteBtn.innerText = 'Delete Ingredient';
 	deleteBtn.addEventListener('click', deleteElement);
 	li.appendChild(input);
@@ -43,7 +43,7 @@ function addStepToList() {
 	input.classList.add('step');
 	input.value = document.querySelector('.stepInput').value;
 	const deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('delete');
+	deleteBtn.classList.add('delete', 'btn');
 	deleteBtn.innerText = 'Delete Step';
 	deleteBtn.addEventListener('click', deleteElement);
 	li.appendChild(input);
@@ -53,13 +53,16 @@ function addStepToList() {
 }
 
 async function submitRecipe() {
+	document.querySelector('.submit').disabled = true;
 	const recipeName = document.querySelector('.recipeName').value;
 	const ingredientsFromInputs = Array.from(document.querySelectorAll('input.ingredient')).map(el => el.value);
 	const stepsFromInputs = Array.from(document.querySelectorAll('input.step')).map(el => el.value);
 	if (!recipeName) {
 		alert('Recipe name is required!');
+		document.querySelector('.submit').disabled = false;
+		return;
 	}
-	const updateTarget = this.parentNode.dataset.id;
+	const updateTarget = this.dataset.id;
 	try {
 		const res = await fetch('/createEditRecipe/submitRecipe', {
 			method: 'put',
@@ -75,6 +78,7 @@ async function submitRecipe() {
 	}
 	catch(err) {
 		console.error(err);
+		document.querySelector('.submit').disabled = false;
 	}
 }
 

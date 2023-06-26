@@ -9,19 +9,25 @@
 	<title>Recipe App</title>
 </head>
 <body>
-	<h1>My Recipes</h1>
+	<header>
+		<h1>My Recipes</h1>
+		<a class="logout btn" href="/logout">Logout</a>
+	</header>
 	<ul class="recipes">
 	<% for(const recipe of recipeList) {%>
 		<li class="recipe" data-id="<%=recipe._id%>">
-			<a href="/myRecipes/viewRecipe/<%=recipe._id%>"><%= recipe.name %></h3>
-			<a class="editRecipe" href="/createEditRecipe/<%=recipe.id%>">Edit</a>
-			<button class="deleteRecipe">Delete</button>
+			<a href="/myRecipes/viewRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %></h3>
+			<a class="editRecipe btn" href="/createEditRecipe/<%=recipe.id%>">Edit</a>
+			<button class="deleteRecipe btn">Delete</button>
 		</li>
 	<% } %>
 	</ul>
 
-	<a class="create btn" href="/createEditRecipe">Create a new recipe</a>
-	<a class="logout" href="/logout">Logout</a>
+	<div class="createDiv">
+		<a class="create btn" href="/createEditRecipe">Create new recipe</a>
+	</div>
+
+
 	<script src="js/main.js"></script>
 </body>
 
