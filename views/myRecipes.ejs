@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/style.css">
 	<title>Recipe App</title>
+	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header>
@@ -14,17 +15,27 @@
 		<a class="logout btn" href="/logout">Logout</a>
 	</header>
 	<ul class="recipes">
-	<% for(const recipe of recipeList) {%>
+	<% for(let i = 0; i < recipeList.length; i++) {%>
+		<% let recipe = recipeList[i] %>
 		<li class="recipe" data-id="<%=recipe._id%>">
-			<a href="/myRecipes/viewRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %></h3>
-			<a class="editRecipe btn" href="/createEditRecipe/<%=recipe.id%>">Edit</a>
-			<button class="deleteRecipe btn">Delete</button>
+			<a href="/myRecipes/viewRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %></a>
+			<span class="fa-solid fa-fire"></span>
+			<span class="fa-regular fa-comment"></span>
+			<a class="editRecipe" href="/myRecipes/createEditRecipe/<%=recipe.id%>"><span class="fa-solid fa-pen"></span></a>
+			<span class="fa-solid fa-trash deleteRecipe myRecipes"></span>
+			<span class="likes">Likes: <%=numLikes[i]%></span>
+			<ul class="likesList hidden">
+				<% for(const like of recipe.likes) { %>
+					<li class="likeUser">
+						<span><%=like%></span>
+					</li>
+				<% } %>
+			</ul>
 		</li>
 	<% } %>
 	</ul>
-
 	<div class="createDiv">
-		<a class="create btn" href="/createEditRecipe">Create new recipe</a>
+		<a class="create btn" href="/myRecipes/createEditRecipe">Create new recipe</a>
 	</div>
 
 

@@ -7,27 +7,40 @@
 	<link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/style.css">
 	<title><%=recipeToRender.name%></title>
+	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body data-id="<%=recipeToRender._id%>">
-	<h1><%=recipeToRender.name%></h1>
-	<h4>Ingredients: </h4>
-	<ul class="ingredients ingredientsList">
+	<header class="viewHeader">
+		<h1><%=recipeToRender.name%></h1>
+		<a class="editRecipe" href="/myRecipes/createEditRecipe/<%=recipeToRender.id%>"><span class="fa-solid fa-pen"></span></a>
+		<span class="fa-solid fa-trash deleteFromView"></span>
+		<a class="myRecipes" href="/myRecipes"><span class="fa-solid fa-arrow-left"></a>
+	</header>
+	<span class="likes">Likes: <%=numLikes%></span>
+	<ul class="likesList hidden">
+		<% for(const like of recipeToRender.likes) { %>
+			<li class="likeUser">
+				<span><%=like%></span>
+			</li>
+		<% } %>
+	</ul>
+	<ul class="viewList ingredients">
+		<h4>Ingredients: </h4>
 		<% for(const ingredient of recipeToRender.ingredients) {%>
 		<li class="ingredient">
 			<span><%= ingredient %></span>
 		</li>
 		<% } %>
 	</ul>
-	<h4>Steps: </h4>
-	<ol class="steps stepsList">
+	<ol class="steps viewList">
+		<h4>Steps: </h4>
 		<% for(const step of recipeToRender.steps) {%>
 		<li class="step">
 			<span><%= step %></span>
 		</li>
 		<% } %>
 	</ol>
-	<a class="editRecipe" href="/createEditRecipe/<%=recipeToRender._id%>">Edit</a>
-	<button class="deleteFromView">Delete</button>
+
 	<script src="/js/main.js"></script>
 </body>
 </html>

@@ -4,6 +4,9 @@ const submitBtn = document.querySelector('.submit');
 const deleteBtns = document.querySelectorAll('.delete');
 const deleteFromMainPageBtns = document.querySelectorAll('.deleteRecipe');
 const deleteFromViewBtn = document.querySelector('.deleteFromView');
+const addIngredientInput = document.querySelector('.ingredientInput');
+const addStepInput = document.querySelector('.stepInput');
+const showLikeBtns = document.querySelectorAll('.likes');
 
 addIngredientBtn && addIngredientBtn.addEventListener('click', addIngredientToList);
 addStepBtn && addStepBtn.addEventListener('click', addStepToList);
@@ -14,6 +17,19 @@ deleteFromViewBtn && deleteFromViewBtn.addEventListener('click', async (click) =
 	await deleteRecipe(click);
 	location.href="/myRecipes";
 });
+addIngredientInput && addIngredientInput.addEventListener('keydown', (e) => {
+	if (e.repeat) return;
+	if (e.code === 'Enter') {
+		addIngredientToList();
+	}
+})
+addStepInput && addStepInput.addEventListener('keydown', (e) => {
+	if (e.repeat) return;
+	if (e.code === 'Enter') {
+		addStepToList();
+	}
+})
+Array.from(showLikeBtns).forEach(el => el.addEventListener('click', hideList));
 
 let perfEntries = performance.getEntriesByType('navigation');
 if (perfEntries[0].type === 'back_forward') {
@@ -26,9 +42,8 @@ function addIngredientToList() {
 	input.type = 'text';
 	input.classList.add('ingredient');
 	input.value = document.querySelector('.ingredientInput').value;
-	const deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('delete', 'btn');
-	deleteBtn.innerText = 'Delete Ingredient';
+	const deleteBtn = document.createElement('span');
+	deleteBtn.classList.add('fa-solid', 'fa-trash', 'delete');
 	deleteBtn.addEventListener('click', deleteElement);
 	li.appendChild(input);
 	li.appendChild(deleteBtn);
@@ -42,9 +57,8 @@ function addStepToList() {
 	input.type = 'text';
 	input.classList.add('step');
 	input.value = document.querySelector('.stepInput').value;
-	const deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('delete', 'btn');
-	deleteBtn.innerText = 'Delete Step';
+	const deleteBtn = document.createElement('span');
+	deleteBtn.classList.add('fa-solid', 'fa-trash', 'delete');
 	deleteBtn.addEventListener('click', deleteElement);
 	li.appendChild(input);
 	li.appendChild(deleteBtn);
@@ -64,7 +78,7 @@ async function submitRecipe() {
 	}
 	const updateTarget = this.dataset.id;
 	try {
-		const res = await fetch('/createEditRecipe/submitRecipe', {
+		const res = await fetch('/myRecipes/submitRecipe', {
 			method: 'put',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -105,4 +119,12 @@ async function deleteRecipe(click) {
 	catch (err) {
 		console.error(err);
 	}
+}
+
+function hideList() {
+	console.log(this.nextSibling.nextSibling.childElementCount);
+	if (this.nextSibling.nextSibling.childElementCount === 0) {
+		return;
+	}
+	this.nextSibling.nextSibling.classList.toggle('hidden');
 }

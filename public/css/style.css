@@ -101,7 +101,7 @@ a.btn {
 	right: 5%;
 }
 
-.submit.btn, .deleteRecipe.btn {
+.submit.btn, .deleteFromView.btn {
 	height: 49px;
 }
 
@@ -138,7 +138,7 @@ a.recipeName, a.recipeName:visited, a.recipeName:active {
 	color: rgba(0, 0, 0, 0.73);
 }
 
-.gradientWord, a.recipeName:hover {
+.gradientWord, a.recipeName:hover, .likes:hover {
 	background-image: linear-gradient(45deg, rgba(231, 60, 55, 0.73), rgba(243, 241, 103, 0.73));
 	background-size: 100%;
 	background-repeat: repeat;
@@ -164,7 +164,6 @@ input.recipeName {
 	flex-basis: 40%;
 	margin: 0 30%;
 }
-
 
 ul.ingredientsList, ol.stepsList {
 	flex-basis: 50%;
@@ -206,4 +205,90 @@ div.listHeaders > h2 {
 
 .ingredientInputDiv > input, .stepInputDiv > input {
 	flex-basis: 60%;
+}
+
+ul.viewList, ol.viewList {
+	flex-basis: 30%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-start;
+}
+
+ol.viewList {
+	list-style-type: number;
+}
+
+.viewList > h4 {
+	flex-basis: 50%;
+	margin: 0, 25%, 15px, 25%;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 25px;
+	border-bottom: rgba(0, 0, 0, 0.73) solid 1px;
+}
+
+ol.viewList > li, ul.viewList > li {
+	text-align: center;
+	margin-top: 20px;
+	flex-basis: 51%;
+}
+
+ol.viewList > li {
+	display: list-item;
+}
+
+.viewHeader > .editRecipe {
+	position: absolute;
+	top: 5%;
+	right: 10%;
+}
+
+.viewHeader > .deleteFromView {
+	position: absolute;
+	top: 5%;
+	right: 7%;
+}
+
+.viewHeader > .myRecipes {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+}
+
+.likes {
+	flex-basis: 100%;
+	text-align: center;
+}
+
+.likes:hover, .fa-solid:hover, .fa-regular:hover {
+	cursor: pointer;
+}
+
+.alert {
+	margin-bottom: 3%;
+	flex-basis: 100%;
+	text-align: center;
+	color: red;
+}
+
+.hidden {
+	display: none;
+}
+
+.likesList {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.fa-fire {
+	color: red;
+}
+
+.editRecipe, a.myRecipes {
+	color: inherit;
+}
+
+.likeUser {
+	flex-basis: 100%;
 }

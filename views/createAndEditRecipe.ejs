@@ -7,6 +7,7 @@
 	<title><%= create ? 'Create' : 'Edit'%> Recipe</title>
 	<link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/style.css">
+	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body data-id="<%=recipe._id%>">
 	<h1><%= create ? 'Create' : 'Edit'%> Recipe</h1>
@@ -23,7 +24,7 @@
 		<% for (const ingredient of recipe.ingredients) {%>
 		<li>
 			<input type="text" class="ingredient" value="<%=ingredient%>">
-			<button class="delete btn">Delete Ingredient</button>
+			<span class="delete fa-solid fa-trash"></span>
 		</li>
 		<% } %>
 	</ul>
@@ -31,17 +32,17 @@
 		<% for (const step of recipe.steps) {%>
 		<li>
 			<input type="text" class="step" value="<%=step%>">
-			<button class="delete btn">Delete Step</button>
+			<span class="delete fa-solid fa-trash"></span>
 		</li>
 		<% } %>
 	</ol>
 	<div class="ingredientInputDiv">
 		<input type="text" placeholder="Ingredient" class="ingredientInput">
-		<button class="addIngredient btn">Add new ingredient</button>
+		<span class="fa-solid fa-plus addIngredient"></span>
 	</div>
 	<div class="stepInputDiv">
 		<input type="text" placeholder="Step" class="stepInput">
-		<button class="addStep btn">Add new step</button>
+		<span class="addStep fa-solid fa-plus"></span>
 	</div>
 
 	<script src="/js/main.js"></script>

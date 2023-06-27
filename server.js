@@ -7,7 +7,6 @@ const flash = require('express-flash');
 const connectDB = require('./config/database');
 const homeRoutes = require('./routes/home');
 const myRecipesRoutes = require('./routes/myRecipes');
-const createEditRecipeRoutes = require('./routes/createEditRecipe');
 
 require('dotenv').config({path:'./config/.env'});
 
@@ -40,7 +39,6 @@ app.use(flash());
 
 app.use('/', homeRoutes);
 app.use('/myRecipes', myRecipesRoutes);
-app.use('/createEditRecipe', createEditRecipeRoutes);
 
 app.listen(process.env.PORT, () => console.log(`Server running`));
 
