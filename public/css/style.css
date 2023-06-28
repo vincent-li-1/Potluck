@@ -64,6 +64,10 @@ form {
 	gap: 10px;
 }
 
+.icon {
+	font-size: 25px;
+}
+
 li > .recipeName {
 	flex-basis: 100%;
 	text-align: center;
@@ -83,7 +87,7 @@ li > .recipeName {
 	background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
 }
 
-.btn:hover {
+.btn:hover, .fa-square-plus:hover {
 	background-position: right center;
 }
 
@@ -95,9 +99,12 @@ a.btn {
 	justify-content: center;
 }
 
-.logout.btn {
+.header.icon, .username {
 	position: absolute;
-	top: 3%;
+	top: 5%;
+}
+
+.logout {
 	right: 5%;
 }
 
@@ -138,9 +145,9 @@ a.recipeName, a.recipeName:visited, a.recipeName:active {
 	color: rgba(0, 0, 0, 0.73);
 }
 
-.gradientWord, a.recipeName:hover, .likes:hover {
-	background-image: linear-gradient(45deg, rgba(231, 60, 55, 0.73), rgba(243, 241, 103, 0.73));
-	background-size: 100%;
+.gradientWord, a.recipeName:hover, .likes:hover, .fa-square-plus {
+	background-image: linear-gradient(to right, #f6d365 0%, #fda085 51%, #f6d365 100%);
+	background-size: 200%;
 	background-repeat: repeat;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent; 
@@ -239,29 +246,20 @@ ol.viewList > li {
 }
 
 .viewHeader > .editRecipe {
-	position: absolute;
-	top: 5%;
-	right: 10%;
+	left: 5%;
 }
 
 .viewHeader > .deleteFromView {
-	position: absolute;
-	top: 5%;
-	right: 7%;
-}
-
-.viewHeader > .myRecipes {
-	position: absolute;
-	top: 5%;
-	left: 5%;
+	left: 7.5%;
 }
 
 .likes {
 	flex-basis: 100%;
 	text-align: center;
+	margin-top: 10px;
 }
 
-.likes:hover, .fa-solid:hover, .fa-regular:hover {
+.likes:hover, .icon:hover {
 	cursor: pointer;
 }
 
@@ -281,14 +279,41 @@ ol.viewList > li {
 	margin-bottom: 0;
 }
 
-.fa-fire {
-	color: red;
-}
-
-.editRecipe, a.myRecipes {
+a.icon {
 	color: inherit;
 }
 
 .likeUser {
 	flex-basis: 100%;
+}
+
+.clicked {
+	background-image: linear-gradient(rgba(238, 56, 5, 1), rgba(255, 247, 13, 1));
+	background-size: 100%;
+	background-repeat: repeat;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; 
+	-moz-background-clip: text;
+	-moz-text-fill-color: transparent;
+}
+
+.username {
+	left: 5%; 
+}
+
+.fa-square-plus {
+	font-size: 65px;
+	transition: 0.5s;
+}
+
+.fa-share-from-square {
+	left: 5%;
+}
+
+.exitEdit {
+	left: 7.5%;
+}
+
+.myRecipes.icon {
+	right: 7.5%;
 }

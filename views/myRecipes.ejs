@@ -4,29 +4,31 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/style.css">
 	<title>Recipe App</title>
 	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header>
+		<span class="username header">Logged in as <%=user.userName%></span>
 		<h1>My Recipes</h1>
-		<a class="logout btn" href="/logout">Logout</a>
+		<a class="logout icon header" href="/logout"><span class="fa-solid fa-arrow-right-from-bracket icon"></span></a>
+		<a class="myRecipes icon header" href="/recipes/myRecipes"><span class="fa-solid fa-user icon"></span></a>
 	</header>
 	<ul class="recipes">
 	<% for(let i = 0; i < recipeList.length; i++) {%>
 		<% let recipe = recipeList[i] %>
-		<li class="recipe" data-id="<%=recipe._id%>">
-			<a href="/myRecipes/viewRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %></a>
-			<span class="fa-solid fa-fire"></span>
-			<span class="fa-regular fa-comment"></span>
-			<a class="editRecipe" href="/myRecipes/createEditRecipe/<%=recipe.id%>"><span class="fa-solid fa-pen"></span></a>
-			<span class="fa-solid fa-trash deleteRecipe myRecipes"></span>
-			<span class="likes">Likes: <%=numLikes[i]%></span>
+		<li class="recipe" data-id="<%=recipe._id%>" data-user="<%=user.userName%>">
+			<a href="/recipes/viewMyRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %></a>
+			<span class="like icon fa-solid fa-fire <%=recipe.likes.includes(user.userName) ? 'clicked' : 'unclicked'%>"></span>
+			<span class="icon fa-regular fa-comment"></span>
+			<a class="editRecipe icon" href="/recipes/createEditRecipe/<%=recipe.id%>"><span class="icon fa-solid fa-pen"></span></a>
+			<span class="icon fa-solid fa-trash deleteRecipe myRecipes"></span>
+			<span class="likes" data-num="<%=numLikes[i]%>">Likes: <%=numLikes[i]%></span>
 			<ul class="likesList hidden">
 				<% for(const like of recipe.likes) { %>
-					<li class="likeUser">
+					<li class="likeUser <%=like%>">
 						<span><%=like%></span>
 					</li>
 				<% } %>
@@ -35,11 +37,11 @@
 	<% } %>
 	</ul>
 	<div class="createDiv">
-		<a class="create btn" href="/myRecipes/createEditRecipe">Create new recipe</a>
+		<a class="create icon" href="/recipes/createEditRecipe"><span class="fa-solid fa-square-plus icon"></span></a>
 	</div>
 
 
-	<script src="js/main.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 
 </html>

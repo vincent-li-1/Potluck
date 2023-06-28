@@ -1,11 +1,11 @@
 const Recipe = require('../models/Recipe')
 
 module.exports = {
-    getRecipes: async (req, res) => {
+    getMyRecipes: async (req, res) => {
 		try {
 			const recipes = await Recipe.find({userId:req.user.id});
 			const numLikes = recipes.map(recipe => recipe.likes.length);
-			res.render('myRecipes.ejs', {recipeList: recipes, numLikes: numLikes});
+			res.render('myRecipes.ejs', {recipeList: recipes, numLikes: numLikes, user: req.user});
 		}
         catch (err) {
 			console.error(err);
@@ -21,7 +21,7 @@ module.exports = {
 			console.error(err);
 		}
 	},
-	viewRecipe: async (req, res) => {
+	viewMyRecipe: async (req, res) => {
 		try {
 			const selectedRecipe = await Recipe.findById(req.params.id);
 			const numLikes = selectedRecipe.likes.length;
@@ -53,9 +53,31 @@ module.exports = {
 				steps: req.body.steps, 
 				userId: req.user.id
 			}
-			req.body.recipeIdToUpdate ? await Recipe.findOneAndUpdate({_id:req.body.recipeIdToUpdate}, recipeToAdd) : await Recipe.create(recipeToAdd);
+			req.body.recipeIdToUpdate ? await Recipe.findOneAndUpdate({_id: req.body.recipeIdToUpdate}, recipeToAdd) : await Recipe.create(recipeToAdd);
 			console.log('Recipe upserted!');
 			res.json('Upserted');
+		}
+		catch (err) {
+			console.error(err);
+		}
+	},
+	likeRecipe: async (req, res) => {
+		try {
+			const user = req.user.userName;
+			const recipeInDb = await Recipe.findById(req.body.recipeId);
+			if (recipeInDb.likes.includes(user)) {
+				console.log('User has liked');
+				const index = recipeInDb.likes.indexOf(user);
+				recipeInDb.likes.splice(index, 1);
+				console.log(recipeInDb.likes);
+				await Recipe.findOneAndUpdate({_id: req.body.recipeId}, recipeInDb);
+			}
+			else {
+				recipeInDb.likes.push(user);
+				await Recipe.findOneAndUpdate({_id: req.body.recipeId}, recipeInDb);
+			}
+			console.log('Recipe liked!');
+			res.json('Liked!');
 		}
 		catch (err) {
 			console.error(err);

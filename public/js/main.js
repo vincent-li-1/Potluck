@@ -7,6 +7,7 @@ const deleteFromViewBtn = document.querySelector('.deleteFromView');
 const addIngredientInput = document.querySelector('.ingredientInput');
 const addStepInput = document.querySelector('.stepInput');
 const showLikeBtns = document.querySelectorAll('.likes');
+const likeBtns = document.querySelectorAll('.like.icon');
 
 addIngredientBtn && addIngredientBtn.addEventListener('click', addIngredientToList);
 addStepBtn && addStepBtn.addEventListener('click', addStepToList);
@@ -15,7 +16,7 @@ Array.from(deleteBtns).forEach(el => el.addEventListener('click', deleteElement)
 Array.from(deleteFromMainPageBtns).forEach(el => el.addEventListener('click', deleteRecipe));
 deleteFromViewBtn && deleteFromViewBtn.addEventListener('click', async (click) => {
 	await deleteRecipe(click);
-	location.href="/myRecipes";
+	location.href="/recipes/myRecipes";
 });
 addIngredientInput && addIngredientInput.addEventListener('keydown', (e) => {
 	if (e.repeat) return;
@@ -30,6 +31,7 @@ addStepInput && addStepInput.addEventListener('keydown', (e) => {
 	}
 })
 Array.from(showLikeBtns).forEach(el => el.addEventListener('click', hideList));
+Array.from(likeBtns).forEach(el => el.addEventListener('click', likeRecipe));
 
 let perfEntries = performance.getEntriesByType('navigation');
 if (perfEntries[0].type === 'back_forward') {
@@ -78,7 +80,7 @@ async function submitRecipe() {
 	}
 	const updateTarget = this.dataset.id;
 	try {
-		const res = await fetch('/myRecipes/submitRecipe', {
+		const res = await fetch('/recipes/submitRecipe', {
 			method: 'put',
 			headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -88,7 +90,7 @@ async function submitRecipe() {
 				steps: stepsFromInputs
 			})
 		});
-		location.href = '/myRecipes';
+		location.href = '/recipes/myRecipes';
 	}
 	catch(err) {
 		console.error(err);
@@ -106,7 +108,7 @@ async function deleteRecipe(click) {
 	const deleteTargetId = deleteTarget.dataset.id;
 	deleteTarget.remove();
 	try {
-		const res = await fetch('/myRecipes/deleteRecipe', {
+		const res = await fetch('/recipes/deleteRecipe', {
 			method: 'delete',
 			headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
@@ -122,9 +124,48 @@ async function deleteRecipe(click) {
 }
 
 function hideList() {
-	console.log(this.nextSibling.nextSibling.childElementCount);
-	if (this.nextSibling.nextSibling.childElementCount === 0) {
+	if (this.parentNode.querySelector('.likesList').childElementCount === 0) {
 		return;
 	}
-	this.nextSibling.nextSibling.classList.toggle('hidden');
+	this.parentNode.querySelector('.likesList').classList.toggle('hidden');
+}
+
+async function likeRecipe() {
+	if (this.classList.contains('clicked')) {
+		this.classList.replace('clicked', 'unclicked');
+		const likesNode = this.parentNode.querySelector('.likes');
+		let numLikes = Number(likesNode.dataset.num) - 1;
+		console.log(numLikes);
+		likesNode.dataset.num = numLikes;
+		likesNode.innerText = `Likes: ${numLikes}`;
+		const likerInList = this.parentNode.dataset.user;
+		this.parentNode.querySelector('.likesList').querySelector(`.${likerInList}`).remove();
+	}
+	else {
+		this.classList.replace('unclicked', 'clicked');
+		const likesNode = this.parentNode.querySelector('.likes');
+		let numLikes = Number(likesNode.dataset.num) + 1;
+		likesNode.dataset.num = numLikes;
+		likesNode.innerText = `Likes: ${numLikes}`;
+		const likerInList = this.parentNode.dataset.user;
+		const liToAdd = document.createElement('li');
+		liToAdd.classList.add('likeUser');
+		liToAdd.classList.add(likerInList);
+		const spanToAdd = document.createElement('span');
+		spanToAdd.innerText = likerInList;
+		liToAdd.appendChild(spanToAdd);
+		this.parentNode.querySelector('.likesList').appendChild(liToAdd);
+	}
+	try {
+		const res = await fetch('/recipes/likeRecipe', {
+			method: 'put',
+			headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+				recipeId: this.parentNode.dataset.id
+			})
+		})
+	}
+	catch (err) {
+		console.error(err);
+	}
 }

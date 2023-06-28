@@ -12,9 +12,10 @@
 <body data-id="<%=recipeToRender._id%>">
 	<header class="viewHeader">
 		<h1><%=recipeToRender.name%></h1>
-		<a class="editRecipe" href="/myRecipes/createEditRecipe/<%=recipeToRender.id%>"><span class="fa-solid fa-pen"></span></a>
-		<span class="fa-solid fa-trash deleteFromView"></span>
-		<a class="myRecipes" href="/myRecipes"><span class="fa-solid fa-arrow-left"></a>
+		<a class="editRecipe icon header" href="/recipes/createEditRecipe/<%=recipeToRender.id%>"><span class="fa-solid fa-pen"></span></a>
+		<span class="icon fa-solid fa-trash deleteFromView header"></span>
+		<a class="myRecipes icon header" href="/recipes/myRecipes"><span class="fa-solid fa-user icon"></span></a>
+		<a class="logout icon header" href="/logout"><span class="fa-solid fa-arrow-right-from-bracket icon"></span></a>
 	</header>
 	<span class="likes">Likes: <%=numLikes%></span>
 	<ul class="likesList hidden">
