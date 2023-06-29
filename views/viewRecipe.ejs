@@ -9,15 +9,23 @@
 	<title><%=recipeToRender.name%></title>
 	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
-<body data-id="<%=recipeToRender._id%>">
+<body data-id="<%=recipeToRender._id%>" data-user="<%=user.userName%>">
 	<header class="viewHeader">
-		<h1><%=recipeToRender.name%></h1>
-		<a class="editRecipe icon header" href="/recipes/createEditRecipe/<%=recipeToRender.id%>"><span class="fa-solid fa-pen"></span></a>
-		<span class="icon fa-solid fa-trash deleteFromView header"></span>
-		<a class="myRecipes icon header" href="/recipes/myRecipes"><span class="fa-solid fa-user icon"></span></a>
+		<h1><%=recipeToRender.name%> <span class="byline">by <%=recipeToRender.userName%></span></h1>
+		<span class="createdTimestamp">Created <%=recipeToRender.createdAt.toString().substring(4, 10) %>, <%=recipeToRender.createdAt.toString().substring(11, 15)%></span>
+		<% if (isMyRecipe) { %>
+			<a class="editRecipe icon header" href="/recipes/createEditRecipe/<%=recipeToRender.id%>"><span class="fa-solid fa-pen"></span></a>
+			<span class="icon fa-solid fa-trash deleteFromView header"></span>
+			<a class="myRecipes icon header" href="/recipes/myRecipes"><span class="fa-solid fa-user icon"></span></a>
+		<% } else { %>
+			<span class="username header">Logged in as <%=user.userName%></span>
+			<a class="feed icon header" href="/recipes/feed"><span class="fa-solid fa-house icon"></span></a>
+		<% } %>
 		<a class="logout icon header" href="/logout"><span class="fa-solid fa-arrow-right-from-bracket icon"></span></a>
 	</header>
-	<span class="likes">Likes: <%=numLikes%></span>
+	<% let numLikes = recipeToRender.likes.length %>
+	<span class="like icon fa-solid fa-fire <%=recipeToRender.likes.includes(user.userName) ? 'clicked' : 'unclicked'%>"></span>
+	<span class="likes" data-num="<%=recipeToRender.likes.length%>">Likes: <%=numLikes%></span>
 	<ul class="likesList hidden">
 		<% for(const like of recipeToRender.likes) { %>
 			<li class="likeUser">
@@ -26,7 +34,7 @@
 		<% } %>
 	</ul>
 	<ul class="viewList ingredients">
-		<h4>Ingredients: </h4>
+		<h4>Ingredients:</h4>
 		<% for(const ingredient of recipeToRender.ingredients) {%>
 		<li class="ingredient">
 			<span><%= ingredient %></span>
@@ -34,14 +42,37 @@
 		<% } %>
 	</ul>
 	<ol class="steps viewList">
-		<h4>Steps: </h4>
+		<h4>Steps:</h4>
 		<% for(const step of recipeToRender.steps) {%>
 		<li class="step">
 			<span><%= step %></span>
 		</li>
 		<% } %>
 	</ol>
-
+	<section class="comments">
+		<ul class="commentsList">
+			<h4>Comments:</h4>
+			<% for (const comment of comments) { %>
+				<li class="comment" data-id="<%=comment.id%>">
+					<div class="commentInfo">
+						<span class="commentByline"><%=comment.userName%></span>
+						<span class="commentText"><%=comment.comment%></span>
+					</div>
+					<div class="commentIcons">
+						<span class="commentLikes"><%=comment.likes.length%></span>
+						<span class="likeComment icon fa-solid fa-fire <%=comment.likes.includes(user.userName) ? 'clicked' : 'unclicked'%>"></span>
+						<% if (comment.userName === user.userName) { %>
+							<span class="icon fa-solid fa-trash deleteComment"></span>
+						<% } %>
+					</div>
+				</li>
+			<% } %>
+		</ul>
+		<div class="createComment" data-id="<%=recipeToRender._id%>">
+			<input type="comment" name="comment" placeholder="Comment" class="comment">
+			<span class="icon fa-regular fa-comment submitComment"></span>
+		</div>
+	</section>
 	<script src="/js/main.js"></script>
 </body>
 </html>

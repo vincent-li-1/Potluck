@@ -6,27 +6,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/css/normalize.css">
 	<link rel="stylesheet" href="/css/style.css">
-	<title>Recipe App</title>
+	<title>Recipes Feed</title>
 	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header>
-		<a class="feed icon header" href="/recipes/feed"><span class="fa-solid fa-house icon"></span></a>
 		<span class="username header">Logged in as <%=user.userName%></span>
-		<h1>My Recipes</h1>
+		<h1>Recipes Feed</h1>
 		<a class="logout icon header" href="/logout"><span class="fa-solid fa-arrow-right-from-bracket icon"></span></a>
+		<a class="myRecipes icon header" href="/recipes/myRecipes"><span class="fa-solid fa-user icon"></span></a>
 	</header>
 	<ul class="recipes">
-	<% for(let i = 0; i < recipeList.length; i++) {%>
-		<% let recipe = recipeList[i] %>
+	<% for(let i = 0; i < recipes.length; i++) {%>
+		<% let recipe = recipes[i] %>
 		<% let numLikes = recipe.likes.length %>
 		<li class="recipe" data-id="<%=recipe._id%>" data-user="<%=user.userName%>">
 			<a href="/recipes/viewRecipe/<%=recipe._id%>" class="recipeName"><%= recipe.name %> <span class="byline">by <%=recipe.userName%></span></a>
 			<span class="createdTimestamp">Created <%=recipe.createdAt.toString().substring(4, 10) %>, <%=recipe.createdAt.toString().substring(11, 15)%></span>
 			<span class="like icon fa-solid fa-fire <%=recipe.likes.includes(user.userName) ? 'clicked' : 'unclicked'%>"></span>
 			<a href="/recipes/viewRecipe/<%=recipe._id%>" class="comment icon"><span class="icon fa-regular fa-comments"></span></a>
-			<a class="editRecipe icon" href="/recipes/createEditRecipe/<%=recipe.id%>"><span class="icon fa-solid fa-pen"></span></a>
-			<span class="icon fa-solid fa-trash deleteRecipe myRecipes"></span>
 			<span class="likes" data-num="<%=numLikes%>">Likes: <%=numLikes%></span>
 			<ul class="likesList hidden">
 				<% for(const like of recipe.likes) { %>
@@ -39,10 +37,6 @@
 		</li>
 	<% } %>
 	</ul>
-	<div class="createDiv">
-		<a class="create icon" href="/recipes/createEditRecipe"><span class="fa-solid fa-square-plus icon"></span></a>
-	</div>
-
 
 	<script src="/js/main.js"></script>
 </body>

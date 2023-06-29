@@ -9,7 +9,9 @@
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-	<h1>Sign up!</h1>
+	<header>
+		<h1>Sign up!</h1>
+	</header>
     <% if (locals.messages.errors) { %>
         <% messages.errors.forEach( el => { %>
             <div class="alert alert-danger"><%= el.msg %></div>

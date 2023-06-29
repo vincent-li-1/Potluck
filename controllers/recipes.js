@@ -1,11 +1,16 @@
-const Recipe = require('../models/Recipe')
+const Recipe = require('../models/Recipe');
+const Comment = require('../models/Comment');
 
 module.exports = {
     getMyRecipes: async (req, res) => {
 		try {
-			const recipes = await Recipe.find({userId:req.user.id});
-			const numLikes = recipes.map(recipe => recipe.likes.length);
-			res.render('myRecipes.ejs', {recipeList: recipes, numLikes: numLikes, user: req.user});
+			const recipes = await Recipe.find({user:req.user}).sort({createdAt: 'desc'});
+			const numCommentsArray = [];
+			for (const recipe of recipes) {
+				const comments = await Comment.find({recipe: recipe});
+				numCommentsArray.push(comments.length);
+			};
+			res.render('myRecipes.ejs', {recipeList: recipes, user: req.user, numCommentsArray: numCommentsArray});
 		}
         catch (err) {
 			console.error(err);
@@ -21,11 +26,15 @@ module.exports = {
 			console.error(err);
 		}
 	},
-	viewMyRecipe: async (req, res) => {
+	viewRecipe: async (req, res) => {
 		try {
 			const selectedRecipe = await Recipe.findById(req.params.id);
-			const numLikes = selectedRecipe.likes.length;
-			res.render('viewRecipe.ejs', {recipeToRender: selectedRecipe, numLikes: numLikes})
+			const comments = await Comment.find({recipe: selectedRecipe}).sort({createdAt: 'asc'});
+			let isMyRecipe = false;
+			if (selectedRecipe.user == req.user.id) {
+				isMyRecipe = true;
+			}
+			res.render('viewRecipe.ejs', {recipeToRender: selectedRecipe, isMyRecipe: isMyRecipe, user: req.user, comments: comments});
 		}
 		catch (err) {
 			console.error(err);
@@ -35,6 +44,9 @@ module.exports = {
 		if (req.params.id) {
 			try {
 				const recipeToEdit = await Recipe.findById(req.params.id);
+				if (req.user.id != recipeToEdit.user) {
+					return res.redirect('/recipes/feed');
+				}
 				res.render('createAndEditRecipe.ejs', {recipe: recipeToEdit, create: false});
 			}
 			catch (err) {
@@ -42,7 +54,7 @@ module.exports = {
 			}
 		}
 		else {
-			res.render('createAndEditRecipe.ejs', {recipe: {_id: '', name: '', ingredients: [], steps: [], likes: []}, create: true});
+			res.render('createAndEditRecipe.ejs', {recipe: {_id: '', name: '', ingredients: [], steps: [], likes: [], user: req.user}, create: true});
 		}
 	},
 	submitRecipe: async (req, res) => {
@@ -51,7 +63,8 @@ module.exports = {
 				name: req.body.name, 
 				ingredients: req.body.ingredients, 
 				steps: req.body.steps, 
-				userId: req.user.id
+				user: req.user,
+				userName: req.user.userName
 			}
 			req.body.recipeIdToUpdate ? await Recipe.findOneAndUpdate({_id: req.body.recipeIdToUpdate}, recipeToAdd) : await Recipe.create(recipeToAdd);
 			console.log('Recipe upserted!');
@@ -66,10 +79,8 @@ module.exports = {
 			const user = req.user.userName;
 			const recipeInDb = await Recipe.findById(req.body.recipeId);
 			if (recipeInDb.likes.includes(user)) {
-				console.log('User has liked');
 				const index = recipeInDb.likes.indexOf(user);
 				recipeInDb.likes.splice(index, 1);
-				console.log(recipeInDb.likes);
 				await Recipe.findOneAndUpdate({_id: req.body.recipeId}, recipeInDb);
 			}
 			else {
@@ -78,6 +89,26 @@ module.exports = {
 			}
 			console.log('Recipe liked!');
 			res.json('Liked!');
+		}
+		catch (err) {
+			console.error(err);
+		}
+	},
+	getFeed: async (req, res) => {
+		try {
+			const allRecipes = await Recipe.find().sort({createdAt: 'desc'});
+			const numCommentsArray = [];
+			for (let i = 0; i < allRecipes.length; i++) {
+				if (allRecipes[i].user == req.user.id) {
+					allRecipes.splice(i, 1);
+					i--;
+				}
+				else {
+					const numComments = (await Comment.find({recipe: allRecipes[i]})).length;
+					numCommentsArray.push(numComments);
+				}
+			}
+			res.render('feed.ejs', {recipes: allRecipes, user: req.user, numCommentsArray: numCommentsArray});
 		}
 		catch (err) {
 			console.error(err);

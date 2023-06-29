@@ -5,18 +5,18 @@ TODO:
 3. Photo uploads
 4. CSS - DONE
 5. Add social network component:
-	1. Add friends/follow
-	2. Recipes feed
-	3. Like/comment (comments can indicate if you've made it)
+	1. Recipes feed - DONE
+	2. Like/comment - DONE
 
-	Nice to have:
+	3. Friends/followers
 	4. Save recipes
 	5. Messaging
 	6. Private/public recipes
+	7. Indicate on comment if you've made it)
 6. Add recipe est time data
-7. Add recipe created time data
+7. Add recipe created time data - DONE
 8. User profile info
 9. Dynamically sized step/input fields
 10. Responsive CSS
 11. Create popup when user refreshes or backs out during editing
-12. Change buttons to icons
+12. Change buttons to icons - DONE

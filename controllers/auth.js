@@ -25,7 +25,7 @@ module.exports = {
 				req.logIn(user, (err) => {
 				  if (err) {return next(err)};
 				  req.flash('success', {msg: 'Success! You are logged in.'});
-				  res.redirect(req.session.returnTo || '/recipes/myRecipes');
+				  res.redirect(req.session.returnTo || '/recipes/feed');
 				})
 			  })(req, res, next);
 		}
@@ -44,7 +44,7 @@ module.exports = {
 
 	getSignup: (req, res) => {
 		if (req.user) {
-			return res.redirect('/recipes/myrecipes');
+			return res.redirect('/recipes/feed');
 		}
 		res.render('signup.ejs', {
 			title: 'Create Account'
@@ -84,7 +84,7 @@ module.exports = {
 					if (err) {
 					  return next(err);
 					}
-					res.redirect('/recipes/myRecipes');
+					res.redirect('/recipes/feed');
 				  });
 			}
 			catch (err) {

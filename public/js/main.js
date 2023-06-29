@@ -6,8 +6,12 @@ const deleteFromMainPageBtns = document.querySelectorAll('.deleteRecipe');
 const deleteFromViewBtn = document.querySelector('.deleteFromView');
 const addIngredientInput = document.querySelector('.ingredientInput');
 const addStepInput = document.querySelector('.stepInput');
-const showLikeBtns = document.querySelectorAll('.likes');
+const showLikesBtns = document.querySelectorAll('.likes');
 const likeBtns = document.querySelectorAll('.like.icon');
+const submitCommentBtn = document.querySelector('.submitComment');
+const addCommentInput = document.querySelector('input.comment');
+const likeCommentBtns = document.querySelectorAll('.likeComment.icon');
+const deleteCommentBtns = document.querySelectorAll('.deleteComment.icon');
 
 addIngredientBtn && addIngredientBtn.addEventListener('click', addIngredientToList);
 addStepBtn && addStepBtn.addEventListener('click', addStepToList);
@@ -30,8 +34,18 @@ addStepInput && addStepInput.addEventListener('keydown', (e) => {
 		addStepToList();
 	}
 })
-Array.from(showLikeBtns).forEach(el => el.addEventListener('click', hideList));
+Array.from(showLikesBtns).forEach(el => el.addEventListener('click', toggleLikesList));
 Array.from(likeBtns).forEach(el => el.addEventListener('click', likeRecipe));
+submitCommentBtn && submitCommentBtn.addEventListener('click', submitComment);
+Array.from(likeCommentBtns).forEach(el => el.addEventListener('click', likeComment));
+Array.from(deleteCommentBtns).forEach(el => el.addEventListener('click', deleteComment));
+addCommentInput && addCommentInput.addEventListener('keydown', (e) => {
+	if (e.repeat) return;
+	if (e.code === 'Enter') {
+		submitComment();
+	}
+})
+
 
 let perfEntries = performance.getEntriesByType('navigation');
 if (perfEntries[0].type === 'back_forward') {
@@ -115,15 +129,13 @@ async function deleteRecipe(click) {
                 'recipeIdToDelete': deleteTargetId
             })
 		});
-		const data = await res.json();
-		console.log(data);
 	}
 	catch (err) {
 		console.error(err);
 	}
 }
 
-function hideList() {
+function toggleLikesList() {
 	if (this.parentNode.querySelector('.likesList').childElementCount === 0) {
 		return;
 	}
@@ -135,7 +147,6 @@ async function likeRecipe() {
 		this.classList.replace('clicked', 'unclicked');
 		const likesNode = this.parentNode.querySelector('.likes');
 		let numLikes = Number(likesNode.dataset.num) - 1;
-		console.log(numLikes);
 		likesNode.dataset.num = numLikes;
 		likesNode.innerText = `Likes: ${numLikes}`;
 		const likerInList = this.parentNode.dataset.user;
@@ -163,6 +174,101 @@ async function likeRecipe() {
             body: JSON.stringify({
 				recipeId: this.parentNode.dataset.id
 			})
+		})
+	}
+	catch (err) {
+		console.error(err);
+	}
+}
+
+async function submitComment() {
+	document.querySelector('.submitComment').disabled = true;
+	try {
+		const comment = document.querySelector('input.comment').value;
+		const recipe = document.querySelector('div.createComment').dataset.id;
+		const res = await fetch(`/comments/createComment/${recipe}`, {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				comment: comment,
+				recipe: recipe
+			})
+		});
+		const data = await res.json();
+		const li = document.createElement('li');
+		const span = document.createElement('span');
+		const iconsDiv = document.createElement('div');
+		const infoDiv = document.createElement('div');
+		const bylineSpan = document.createElement('span');
+		const likeCommentSpan = document.createElement('span');
+		const deleteCommentSpan = document.createElement('span');
+		const numLikesSpan = document.createElement('span');
+		numLikesSpan.classList.add('commentLikes');
+		numLikesSpan.textContent = '0';
+		likeCommentSpan.classList.add('likeComment', 'icon', 'fa-solid', 'fa-fire', 'unclicked');
+		deleteCommentSpan.classList.add('icon', 'fa-solid', 'fa-trash', 'deleteComment');
+		likeCommentSpan.addEventListener('click', likeComment);
+		deleteCommentSpan.addEventListener('click', deleteComment);
+		bylineSpan.classList.add('commentByline');
+		bylineSpan.textContent = document.querySelector('body').dataset.user;
+		infoDiv.classList.add('commentInfo');
+		infoDiv.appendChild(bylineSpan);
+		infoDiv.appendChild(span);
+		iconsDiv.classList.add('commentIcons');
+		iconsDiv.appendChild(numLikesSpan);
+		iconsDiv.appendChild(likeCommentSpan);
+		iconsDiv.appendChild(deleteCommentSpan);
+		span.classList.add('commentText');
+		span.textContent = document.querySelector('input.comment').value;
+		li.appendChild(infoDiv);
+		li.appendChild(iconsDiv);
+		li.classList.add('comment');
+		li.dataset.id = data.id;
+		document.querySelector('ul.commentsList').appendChild(li);
+		document.querySelector('input.comment').value = '';
+		document.querySelector('.submitComment').disabled = false;
+
+	}
+	catch (err) {
+		console.error(err);
+		document.querySelector('.submitComment').disabled = false;
+	}
+}
+
+async function likeComment() {
+	if (this.classList.contains('clicked')) {
+		this.classList.replace('clicked', 'unclicked');
+		const likesNode = this.parentNode.querySelector('.commentLikes');
+		let numLikes = Number(likesNode.innerText) - 1;
+		likesNode.innerText = numLikes;
+	}
+	else {
+		this.classList.replace('unclicked', 'clicked');
+		const likesNode = this.parentNode.querySelector('.commentLikes');
+		let numLikes = Number(likesNode.innerText) + 1;
+		likesNode.innerText = numLikes;
+		likesNode.innerText = numLikes;
+	}
+	try {
+		const likedComment = this.parentNode.parentNode.dataset.id;
+		const res = await fetch(`/comments/likeComment/${likedComment}`, {
+			method: 'put',
+			headers: {'Content-Type': 'application/json'},
+		})
+	}
+	catch (err) {
+		console.error(err);
+	}
+}
+
+async function deleteComment() {
+	const deleteTarget = this.parentNode.parentNode;
+	const deleteTargetId = deleteTarget.dataset.id;
+	deleteTarget.remove();
+	try {
+		const res = await fetch(`/comments/deleteComment/${deleteTargetId}`, {
+			method: 'delete',
+			headers: {'Content-Type': 'application/json'},
 		})
 	}
 	catch (err) {

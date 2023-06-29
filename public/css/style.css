@@ -42,9 +42,20 @@ h1 {
 	font-family: 'Caveat', cursive;
 	font-size: 60px;
 	flex-basis: 76%;
-	margin: 0% 12% 2% 12%;
+	margin: 0% 12%;
 	text-align: center;
+	
+}
+
+header {
 	padding-bottom: 1%;
+}
+
+header:after {
+	content: '';
+	display: block;
+	width: 75%;
+	margin: 1em auto 0;
 	border-bottom: rgba(0, 0, 0, 0.73) solid 2px;
 }
 
@@ -71,7 +82,6 @@ form {
 li > .recipeName {
 	flex-basis: 100%;
 	text-align: center;
-	margin-bottom: 10px;
 }
 
 .btn {
@@ -112,10 +122,6 @@ a.btn {
 	height: 49px;
 }
 
-a.recipeName {
-	text-transform: capitalize;
-}
-
 ul, ol {
 	flex-basis: 100%;
 	display: flex;
@@ -143,6 +149,7 @@ li {
 a.recipeName, a.recipeName:visited, a.recipeName:active {
 	text-decoration: none;
 	color: rgba(0, 0, 0, 0.73);
+	font-size: 25px;
 }
 
 .gradientWord, a.recipeName:hover, .likes:hover, .fa-square-plus {
@@ -179,7 +186,7 @@ ul.ingredientsList, ol.stepsList {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	align-content: flex-start;
 }
 
@@ -188,6 +195,10 @@ ul.ingredientsList > li, ol.stepsList > li {
 	display: flex;
 	gap: 10px;
 	margin-top: 5px;
+}
+
+ul.recipes, li.recipe {
+	align-items: flex-start;
 }
 
 div.listHeaders {
@@ -235,6 +246,10 @@ ol.viewList {
 	border-bottom: rgba(0, 0, 0, 0.73) solid 1px;
 }
 
+.commentsList > h4 {
+	font-size: 25px;
+}
+
 ol.viewList > li, ul.viewList > li {
 	text-align: center;
 	margin-top: 20px;
@@ -279,8 +294,9 @@ ol.viewList > li {
 	margin-bottom: 0;
 }
 
-a.icon {
+a.icon, a.commentLink {
 	color: inherit;
+	text-decoration: none;
 }
 
 .likeUser {
@@ -317,3 +333,93 @@ a.icon {
 .myRecipes.icon {
 	right: 7.5%;
 }
+
+.feed.icon {
+	right: 7.5%;
+}
+
+span.byline, .createdTimestamp {
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.55);
+}
+
+.createdTimestamp {
+	flex-basis: 100%;
+	text-align: center;
+	margin: 5px 0 10px 0;
+}
+
+h1 > .byline, h1 > .createdTimestamp {
+	font-size: 40px;
+}
+
+section.comments {
+	flex-basis: 66%;
+	margin: 5px 17%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	border:rgba(0, 0, 0, 0.73) 2px solid;
+	padding: 2% 5%;
+	border-radius: 10px;
+}
+
+ul.commentsList > h4 {
+	flex-basis: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+li.comment {
+	flex-basis: 100%;
+	padding: 5px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-top:rgba(0, 0, 0, 0.73) 1px dashed;
+}
+
+.commentByline, .commentText {
+	padding: 1px 0;
+	flex-basis: 100%;
+}
+
+.commentText {
+	font-size: 17px;
+}
+
+.commentByline {
+	font-size: 14px;
+	color:rgba(0, 0, 0, 0.55)
+}
+
+.commentInfo {
+	flex-basis: 88%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.commentIcons > * {
+	font-size: 14px;
+}
+
+div.createComment {
+	display: flex;
+	flex-wrap: wrap;
+	flex-basis: 100%;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+input.comment {
+	flex-basis: 75%;
+}
+
+div.commentIcons {
+	display: flex;
+	gap: 4px;
+	align-items: baseline;
+}
+
