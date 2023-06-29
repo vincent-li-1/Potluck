@@ -84,6 +84,10 @@ li > .recipeName {
 	text-align: center;
 }
 
+li.recipe {
+	margin-bottom: 50px;
+}
+
 .btn {
 	width: 100px;
 	height: 45px;
@@ -129,6 +133,10 @@ ul, ol {
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 15px;
+}
+
+ul.recipes {
+	justify-content: flex-start
 }
 
 li {
