@@ -10,7 +10,7 @@
 	<script src="https://kit.fontawesome.com/3d1ee2f586.js" crossorigin="anonymous"></script>
 </head>
 <body data-id="<%=recipeToRender._id%>" data-user="<%=user.userName%>">
-	<header class="viewHeader">
+	<header class="viewHeader" data-id="<%=recipeToRender._id%>">
 		<h1><%=recipeToRender.name%> <span class="byline">by <%=recipeToRender.userName%></span></h1>
 		<span class="createdTimestamp">Created <%=recipeToRender.createdAt.toString().substring(4, 10) %>, <%=recipeToRender.createdAt.toString().substring(11, 15)%></span>
 		<% if (isMyRecipe) { %>

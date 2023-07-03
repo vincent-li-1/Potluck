@@ -19,8 +19,7 @@ submitBtn && submitBtn.addEventListener('click', submitRecipe);
 Array.from(deleteBtns).forEach(el => el.addEventListener('click', deleteElement));
 Array.from(deleteFromMainPageBtns).forEach(el => el.addEventListener('click', deleteRecipe));
 deleteFromViewBtn && deleteFromViewBtn.addEventListener('click', async (click) => {
-	await deleteRecipe(click);
-	location.href="/recipes/myRecipes";
+	await deleteRecipe(click, true);
 });
 addIngredientInput && addIngredientInput.addEventListener('keydown', (e) => {
 	if (e.repeat) return;
@@ -117,18 +116,16 @@ function deleteElement() {
 	deleteTarget.remove();
 }
 
-async function deleteRecipe(click) {
-	const deleteTarget = click.target.parentNode;
-	const deleteTargetId = deleteTarget.dataset.id;
-	deleteTarget.remove();
+async function deleteRecipe(click, isFromView) {
 	try {
-		const res = await fetch('/recipes/deleteRecipe', {
-			method: 'delete',
-			headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({
-                'recipeIdToDelete': deleteTargetId
-            })
+		console.log(isFromView);
+		const deleteTarget = click.target.parentNode;
+		const deleteTargetId = deleteTarget.dataset.id;
+		console.log(deleteTarget);
+		const res = await fetch(`/recipes/deleteRecipe/${deleteTargetId}`, {
+			method: 'delete'
 		});
+		isFromView ? location.href = '/recipes/myRecipes' : deleteTarget.remove();
 	}
 	catch (err) {
 		console.error(err);
@@ -168,12 +165,8 @@ async function likeRecipe() {
 		this.parentNode.querySelector('.likesList').appendChild(liToAdd);
 	}
 	try {
-		const res = await fetch('/recipes/likeRecipe', {
-			method: 'put',
-			headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-				recipeId: this.parentNode.dataset.id
-			})
+		await fetch(`/recipes/likeRecipe/${this.parentNode.dataset.id}`, {
+			method: 'put'
 		})
 	}
 	catch (err) {
@@ -252,8 +245,7 @@ async function likeComment() {
 	try {
 		const likedComment = this.parentNode.parentNode.dataset.id;
 		const res = await fetch(`/comments/likeComment/${likedComment}`, {
-			method: 'put',
-			headers: {'Content-Type': 'application/json'},
+			method: 'put'
 		})
 	}
 	catch (err) {
@@ -267,8 +259,7 @@ async function deleteComment() {
 	deleteTarget.remove();
 	try {
 		const res = await fetch(`/comments/deleteComment/${deleteTargetId}`, {
-			method: 'delete',
-			headers: {'Content-Type': 'application/json'},
+			method: 'delete'
 		})
 	}
 	catch (err) {

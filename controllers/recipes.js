@@ -18,9 +18,10 @@ module.exports = {
     },
 	deleteRecipe: async (req, res) => {
 		try {
-			await Recipe.findOneAndDelete({_id:req.body.recipeIdToDelete})
+			await Recipe.findOneAndDelete({_id: req.params.id});
+			await Comment.deleteMany({recipe: req.params.id});
 			console.log('Server side log of deleted recipe');
-			res.json('Response of deleted recipe');
+			res.json('Deleted recipe');
 		}
 		catch (err) {
 			console.error(err);
@@ -77,15 +78,15 @@ module.exports = {
 	likeRecipe: async (req, res) => {
 		try {
 			const user = req.user.userName;
-			const recipeInDb = await Recipe.findById(req.body.recipeId);
+			const recipeInDb = await Recipe.findById(req.params.id);
 			if (recipeInDb.likes.includes(user)) {
 				const index = recipeInDb.likes.indexOf(user);
 				recipeInDb.likes.splice(index, 1);
-				await Recipe.findOneAndUpdate({_id: req.body.recipeId}, recipeInDb);
+				await Recipe.findOneAndUpdate({_id: req.params.id}, recipeInDb);
 			}
 			else {
 				recipeInDb.likes.push(user);
-				await Recipe.findOneAndUpdate({_id: req.body.recipeId}, recipeInDb);
+				await Recipe.findOneAndUpdate({_id: req.params.id}, recipeInDb);
 			}
 			console.log('Recipe liked!');
 			res.json('Liked!');
