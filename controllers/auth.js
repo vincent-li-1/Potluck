@@ -9,8 +9,14 @@ module.exports = {
 		if (validator.isEmpty(req.body.password)) validationErrors.push({msg: 'Password cannot be blank.'});
 
 		if (validationErrors.length) {
-			req.flash('errors', validationErrors);
-			return res.redirect('/');
+			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+				res.status(400);
+				return res.json('Invalid email or password');
+			}
+			else {
+				req.flash('errors', validationErrors);
+				return res.redirect('/');
+			}
 		}
 		
 		else {
@@ -19,11 +25,24 @@ module.exports = {
 			passport.authenticate('local', (err, user, info) => {
 				if (err) {return next(err)};
 				if (!user) {
-				  req.flash('errors', info);
-				  return res.redirect('/');
+					if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+						res.status(400);
+						return res.json('Incorrect email or password');
+					}
+				  	req.flash('errors', info);
+				 	return res.redirect('/');
 				}
 				req.logIn(user, (err) => {
 				  if (err) {return next(err)};
+				  if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+					res.status(200);
+					user = {
+						id: user.id,
+						username: user.userName
+					}
+					console.log(user);
+					return res.json(user)
+				  }
 				  req.flash('success', {msg: 'Success! You are logged in.'});
 				  res.redirect(req.session.returnTo || '/recipes/feed');
 				})

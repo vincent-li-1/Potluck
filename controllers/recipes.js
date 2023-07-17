@@ -59,6 +59,7 @@ module.exports = {
 		}
 	},
 	submitRecipe: async (req, res) => {
+		console.log(req);
 		try {
 			const recipeToAdd = {
 				name: req.body.name, 
@@ -99,8 +100,10 @@ module.exports = {
 		try {
 			const allRecipes = await Recipe.find().sort({createdAt: 'desc'});
 			const numCommentsArray = [];
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('userId'): req.user.id;
 			for (let i = 0; i < allRecipes.length; i++) {
-				if (allRecipes[i].user == req.user.id) {
+				
+				if (allRecipes[i].user == user) {
 					allRecipes.splice(i, 1);
 					i--;
 				}
@@ -108,6 +111,15 @@ module.exports = {
 					const numComments = (await Comment.find({recipe: allRecipes[i]})).length;
 					numCommentsArray.push(numComments);
 				}
+			}
+			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+				obj = {
+					recipes: allRecipes,
+					numCommentsArray: numCommentsArray
+				}
+				console.log(obj);
+				res.status(200);
+				return res.json(obj);
 			}
 			res.render('feed.ejs', {recipes: allRecipes, user: req.user, numCommentsArray: numCommentsArray});
 		}
