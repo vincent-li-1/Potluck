@@ -4,11 +4,19 @@ const Comment = require('../models/Comment');
 module.exports = {
     getMyRecipes: async (req, res) => {
 		try {
-			const recipes = await Recipe.find({user:req.user}).sort({createdAt: 'desc'});
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('userId') : req.user.id;
+			const recipes = await Recipe.find({user:user}).sort({createdAt: 'desc'});
 			const numCommentsArray = [];
 			for (const recipe of recipes) {
 				const comments = await Comment.find({recipe: recipe});
 				numCommentsArray.push(comments.length);
+			};
+			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+				obj = {
+					recipes: recipes
+				}
+				res.status(200);
+				return res.json(obj);
 			};
 			res.render('myRecipes.ejs', {recipeList: recipes, user: req.user, numCommentsArray: numCommentsArray});
 		}
@@ -31,6 +39,13 @@ module.exports = {
 		try {
 			const selectedRecipe = await Recipe.findById(req.params.id);
 			const comments = await Comment.find({recipe: selectedRecipe}).sort({createdAt: 'asc'});
+			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+				obj = {
+					comments: comments
+				}
+				res.status(200);
+				return res.json(obj);
+			}
 			let isMyRecipe = false;
 			if (selectedRecipe.user == req.user.id) {
 				isMyRecipe = true;
@@ -78,7 +93,7 @@ module.exports = {
 	},
 	likeRecipe: async (req, res) => {
 		try {
-			const user = req.user.userName;
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('username') : req.user.userName;
 			const recipeInDb = await Recipe.findById(req.params.id);
 			if (recipeInDb.likes.includes(user)) {
 				const index = recipeInDb.likes.indexOf(user);
@@ -100,7 +115,7 @@ module.exports = {
 		try {
 			const allRecipes = await Recipe.find().sort({createdAt: 'desc'});
 			const numCommentsArray = [];
-			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('userId'): req.user.id;
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('userId') : req.user.id;
 			for (let i = 0; i < allRecipes.length; i++) {
 				
 				if (allRecipes[i].user == user) {
@@ -114,10 +129,8 @@ module.exports = {
 			}
 			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
 				obj = {
-					recipes: allRecipes,
-					numCommentsArray: numCommentsArray
+					recipes: allRecipes
 				}
-				console.log(obj);
 				res.status(200);
 				return res.json(obj);
 			}
