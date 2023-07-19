@@ -13,7 +13,6 @@ You can sign up with your own account or use the already created test account be
 user names and emails have to be unique, and emails must pass a basic email validator (must have an @ and a . followed by letters) but the email address does not need to be a real email address. I will not send you emails!
 Passwords are salted using BCrypt.
 
-Test User:
 
 Email: test@test.com
 
