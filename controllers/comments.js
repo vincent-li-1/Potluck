@@ -22,7 +22,7 @@ module.exports = {
 	},
 	likeComment: async (req, res) => {
 		try {
-			const user = req.user.userName;
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('username') : req.user.userName;
 			const comment = await Comment.findById(req.params.commentId);
 			if (comment.likes.includes(user)) {
 				const index = comment.likes.indexOf(user);
@@ -42,8 +42,10 @@ module.exports = {
 	},
 	deleteComment: async (req, res) => {
 		try {
+			console.log(req);
 			const commentToDelete = await Comment.findById(req.params.commentId);
-			if (commentToDelete.userName !== req.user.userName) {
+			const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.get('username') : req.user.userName;
+			if (commentToDelete.userName !== user) {
 				res.json('Did not delete. You are not the comment creator!');
 				return;
 			}
