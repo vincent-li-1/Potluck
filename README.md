@@ -16,6 +16,7 @@ Passwords are salted using BCrypt.
 Test User:
 
 Email: test@test.com
+
 Password: testtest
 
 ## Contributing
