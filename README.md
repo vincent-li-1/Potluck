@@ -24,7 +24,7 @@ To run the server locally:
 1. Download or clone this repo
 2. Run `npm install` in the root directory
 3. Reach out to me - you will need a the key to access the MongoDB database
-4. Set up a .env file with the db key and a port (the mobile app uses a port of 8000 for the local server, if you use a different one and are using the mobile frontend you will need to change that)
+4. Set up a .env file with the db key and a port (the mobile app uses port `8000` for the local server, if you use a different one and are using the mobile frontend you will need to change that)
 5. Run `npm run start` to start the server
 
 ## Contributing
