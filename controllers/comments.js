@@ -3,14 +3,17 @@ const Comment = require('../models/Comment');
 
 module.exports = {
 	postComment: async (req, res) => {
+		console.log(req);
+		const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.body.user : req.user;
+		const username = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.body.username : req.user.userName;
 		try {
 			const newComment = {
 				comment: req.body.comment,
 				likes: [],
 				recipe: req.params.recipeId,
 				createdByUser: req.body.createdByUser,
-				user: req.user,
-				userName: req.user.userName
+				user: user,
+				userName: username
 			};
 			const response = await Comment.create(newComment);
 			console.log('Commented!');

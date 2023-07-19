@@ -77,6 +77,10 @@ module.exports = {
 		if (req.body.password !== req.body.confirmPassword) validationErrors.push({msg: 'Passwords do not match'});
 	  
 		if (validationErrors.length) {
+			if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+				res.status(400);
+				return res.json(validationErrors[0].msg);
+			}
 		  req.flash('errors', validationErrors);
 		  return res.redirect('../signup');
 		}
@@ -94,11 +98,23 @@ module.exports = {
 				{userName: req.body.userName}
 			]});
 			if (existingUser) {
+				if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+					res.status(400);
+					return res.json('Account with that email address or username already exists.');
+				}
 				req.flash('errors', {msg: 'Account with that email address or username already exists.'});
 				return res.redirect('../signup');
 			};
 			try {
 				await user.save();
+				console.log(user);
+				if (req.get('user-agent') === 'Dart/3.0 (dart:io)') {
+					res.status(200);
+					return res.json(obj = {
+						id: user.id,
+						username: user.userName
+					});
+				}
 				req.logIn(user, (err) => {
 					if (err) {
 					  return next(err);

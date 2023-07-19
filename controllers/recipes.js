@@ -75,13 +75,15 @@ module.exports = {
 	},
 	submitRecipe: async (req, res) => {
 		console.log(req);
+		const user = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.body.user : req.user;
+		const username = req.get('user-agent') === 'Dart/3.0 (dart:io)' ? req.body.username : req.user.userName;
 		try {
 			const recipeToAdd = {
 				name: req.body.name, 
 				ingredients: req.body.ingredients, 
 				steps: req.body.steps, 
-				user: req.user,
-				userName: req.user.userName
+				user: user,
+				userName: username
 			}
 			req.body.recipeIdToUpdate ? await Recipe.findOneAndUpdate({_id: req.body.recipeIdToUpdate}, recipeToAdd) : await Recipe.create(recipeToAdd);
 			console.log('Recipe upserted!');
